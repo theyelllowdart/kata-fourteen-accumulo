@@ -17,8 +17,12 @@ public class NGramWriterTest {
   @Injectable
   private String ngramTable = "ngram";
 
+  @Injectable
+  @Cascading
+  private Connector connector;
+
   @Test
-  public void close_closesAccumuloWriter(@Injectable @Cascading Connector connector, @Mocked final BatchWriter batchWriter) throws Exception {
+  public void close_closesAccumuloWriter(@Mocked final BatchWriter batchWriter) throws Exception {
     writer.close();
     new Verifications() {
       {
