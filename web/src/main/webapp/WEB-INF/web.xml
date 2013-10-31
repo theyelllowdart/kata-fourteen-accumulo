@@ -1,0 +1,54 @@
+<web-app metadata-complete="true">
+  <context-param>
+    <param-name>resteasy.guice.modules</param-name>
+    <param-value>
+      org.jboss.resteasy.plugins.guice.ext.RequestScopeModule,
+      org.jboss.resteasy.plugins.guice.ext.JaxrsModule
+    </param-value>
+  </context-param>
+  <!--prefix should match servlet mapping url pattern -->
+  <context-param>
+    <param-name>resteasy.servlet.mapping.prefix</param-name>
+    <param-value>/rest</param-value>
+  </context-param>
+  <context-param>
+    <param-name>resteasy.use.deployment.sensitive.factory</param-name>
+    <param-value>false</param-value>
+  </context-param>
+
+  <!--environment parameters-->
+  <context-param>
+    <param-name>kata-fourteen.accumulo.connector.type</param-name>
+    <param-value>MOCK</param-value>
+  </context-param>
+  <context-param>
+    <param-name>kata-fourteen.zookeeper.connection</param-name>
+    <param-value>localhost:2181</param-value>
+  </context-param>
+  <context-param>
+    <param-name>kata-fourteen.ngram.size</param-name>
+    <param-value>3</param-value>
+  </context-param>
+  <context-param>
+    <param-name>kata-fourteen.ngram.table.name</param-name>
+    <param-value>ngram</param-value>
+  </context-param>
+
+  <!--listener to configure RestEasy with guice -->
+  <listener>
+    <listener-class>
+      kata.fourteen.accumulo.servlet.KataGuiceListener
+    </listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>Resteasy</servlet-name>
+    <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Resteasy</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
