@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import com.beust.jcommander.internal.Lists;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 public class TextIngesterTest {
 
   @Tested
@@ -35,7 +38,8 @@ public class TextIngesterTest {
       }
     };
 
-    textIngester.ingest(reader);
+    long entriesWritten = textIngester.ingest(reader);
+    assertThat(entriesWritten, is(6l));
 
     new FullVerifications() {
       {

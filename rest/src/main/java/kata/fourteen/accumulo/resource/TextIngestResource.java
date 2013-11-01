@@ -5,6 +5,8 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import kata.fourteen.accumulo.accumulo.ingest.TextIngester;
 
@@ -21,7 +23,9 @@ public class TextIngestResource {
   }
 
   @PUT
-  public void ingest(Reader reader) throws MutationsRejectedException, TableNotFoundException {
-    textIngester.ingest(reader);
+  // we should probably return a model for xml or json but lets keep it simple
+  @Produces(MediaType.TEXT_PLAIN)
+  public long ingest(Reader reader) throws MutationsRejectedException, TableNotFoundException {
+    return textIngester.ingest(reader);
   }
 }
