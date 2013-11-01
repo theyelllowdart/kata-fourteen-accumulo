@@ -13,54 +13,63 @@ import org.apache.accumulo.core.iterators.SortedKeyValueIterator;
 import org.apache.accumulo.core.iterators.TypedValueCombiner;
 import org.apache.accumulo.start.classloader.vfs.AccumuloVFSClassLoader;
 
+/**
+ * Iterator for skipping entries with weights (assumes each entry has value long which represent its weight). The
+ * iterator will sum each entry until it reaches the target sum.
+ */
 public class WeightedSkippingIterator extends SkippingIterator {
   private static final String ENCODER_CLASS_NAME = "encoder";
-  private static final String TARGET = "target";
+  private static final String TARGET_SUM = "targetSum";
 
-  private long target;
-  private long current = 0L;
-  private Map.Entry<Key, Value> last;
-
+  private long targetSum;
+  private long currentSum = 0L;
+  private Map.Entry<Key, Value> targetEntry;
   private TypedValueCombiner.Encoder<Long> encoder;
 
   @Override
   public void init(SortedKeyValueIterator<Key, Value> source, Map<String, String> options, IteratorEnvironment env) throws IOException {
     super.init(source, options, env);
-    target = Long.parseLong(options.get(TARGET));
+    targetSum = Long.parseLong(options.get(TARGET_SUM));
     setEncoder(options.get(ENCODER_CLASS_NAME));
   }
 
+  /**
+   * Sums each entry in range until <code>targetSum</code> is reached or there are no more entries left.
+   * 
+   * @throws IOException
+   */
   @Override
   protected void consume() throws IOException {
-    while (super.hasTop() && current <= target) {
-      last = new AbstractMap.SimpleImmutableEntry<>(super.getTopKey(), super.getTopValue());
-      current += encoder.decode(getTopValue().get());
+    while (super.hasTop() && currentSum <= targetSum) {
+      targetEntry = new AbstractMap.SimpleImmutableEntry<>(super.getTopKey(), super.getTopValue());
+      currentSum += encoder.decode(getTopValue().get());
       getSource().next();
     }
   }
 
   @Override
   public boolean hasTop() {
-    return last != null;
+    return targetEntry != null;
   }
 
   @Override
   public Key getTopKey() {
-    return last.getKey();
+    return targetEntry.getKey();
   }
 
   @Override
   public Value getTopValue() {
-    return last.getValue();
+    return targetEntry.getValue();
   }
 
   @Override
   public void next() throws IOException {
-    last = null;
+    //ensure targetEntry is only returned once
+    targetEntry = null;
   }
 
   public static void setTarget(IteratorSetting cfg, Long target) {
-    cfg.addOption(TARGET, target.toString());
+    cfg.addOption(TARGET_SUM, target.toString());
   }
 
   protected void setEncoder(String encoderClass) {
@@ -74,6 +83,9 @@ public class WeightedSkippingIterator extends SkippingIterator {
     }
   }
 
+  /**
+   * @see org.apache.accumulo.core.iterators.LongCombiner#setEncodingType(IteratorSetting, String)
+   */
   public static void setEncodingType(IteratorSetting is, String encoderClassName) {
     is.addOption(ENCODER_CLASS_NAME, encoderClassName);
   }

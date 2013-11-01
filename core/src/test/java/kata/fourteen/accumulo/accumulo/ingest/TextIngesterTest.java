@@ -18,7 +18,7 @@ public class TextIngesterTest {
   private TextIngester textIngester;
 
   @Injectable
-  private TokenParser tokenParser;
+  private Tokenizer tokenizer;
 
   @Injectable
   private NGramWriter ngramWriter;
@@ -30,7 +30,7 @@ public class TextIngesterTest {
   public void ingest_matchesSample(@Injectable final Reader reader) throws Exception {
     new Expectations() {
       {
-        tokenParser.parse(withSameInstance(reader));
+        tokenizer.parse(withSameInstance(reader));
         returns("I", "wish", "I", "may", "I", "wish", "I", "might");
       }
     };

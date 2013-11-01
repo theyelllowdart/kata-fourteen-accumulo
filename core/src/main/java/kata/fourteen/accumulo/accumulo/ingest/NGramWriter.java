@@ -20,6 +20,9 @@ import org.apache.accumulo.typo.Typo;
 
 import com.google.common.io.Closeables;
 
+/**
+ * Writes ngrams into Accumulo
+ */
 public class NGramWriter implements AutoCloseable {
   private final BatchWriter batchWriter;
 

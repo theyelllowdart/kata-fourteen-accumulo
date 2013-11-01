@@ -8,30 +8,40 @@ import javax.inject.Named;
 import javax.inject.Provider;
 
 import kata.fourteen.accumulo.accumulo.NGramEntry;
-import kata.fourteen.accumulo.accumulo.RollingNGram;
+import kata.fourteen.accumulo.accumulo.RollingQueue;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
 
 import org.apache.accumulo.core.client.MutationsRejectedException;
 import org.apache.accumulo.core.client.TableNotFoundException;
 
+/**
+ *
+ */
 public class TextIngester {
-  private final TokenParser tokenParser;
+  private final Tokenizer tokenizer;
   private final Provider<NGramWriter> writerProvider;
   private final int ngramSize;
 
   @Inject
-  public TextIngester(TokenParser tokenParser, Provider<NGramWriter> writerProvider,
+  public TextIngester(Tokenizer tokenizer, Provider<NGramWriter> writerProvider,
       @Named(SettingKeys.NGRAM_SIZE) int ngramSize) {
-    this.tokenParser = tokenParser;
+    this.tokenizer = tokenizer;
     this.writerProvider = writerProvider;
     this.ngramSize = ngramSize;
   }
 
+  /**
+   * Converts text into a sequence of {@link NGramEntry} and writes them using {@link NGramWriter}
+   * 
+   * @param reader
+   *          english text
+   * @throws MutationsRejectedException
+   * @throws TableNotFoundException
+   */
   public void ingest(final Reader reader) throws MutationsRejectedException, TableNotFoundException {
     try (NGramWriter writer = writerProvider.get()) {
-      Iterator<String> tokens = tokenParser.parse(reader);
-      RollingNGram rollingNGram = new RollingNGram(ngramSize);
-      // reuse ngramEntry
+      Iterator<String> tokens = tokenizer.parse(reader);
+      RollingQueue<String> rollingQueue = new RollingQueue<>(ngramSize);
       while (tokens.hasNext()) {
         String nextToken = tokens.next();
         // skip quotes. simple n-gram text generation performs poorly with quotations
@@ -39,10 +49,11 @@ public class TextIngester {
             || nextToken.equals("_") || nextToken.equals("`")) {
           continue;
         }
-        if (rollingNGram.isFilled()) {
-          writer.insert(new NGramEntry(rollingNGram.getTokens(), nextToken));
+        if (rollingQueue.isFilled()) {
+          writer.insert(new NGramEntry(rollingQueue, nextToken));
         }
-        rollingNGram.push(nextToken);
+        // push next token into rolling queue
+        rollingQueue.push(nextToken);
       }
     }
   }

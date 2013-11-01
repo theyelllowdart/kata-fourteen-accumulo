@@ -1,19 +1,23 @@
 package kata.fourteen.accumulo.accumulo;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-public class RollingNGram {
+/**
+ *
+ */
+public class RollingQueue<T> implements Iterable<T>{
   private final int length;
-  private final LinkedList<String> tokens;
+  private final LinkedList<T> tokens;
 
-  public RollingNGram(int length) {
+  public RollingQueue(int length) {
     this(length, null);
   }
 
-  public RollingNGram(int length, List<String> tokens) {
+  public RollingQueue(int length, List<T> tokens) {
     Preconditions.checkArgument(length > 0, "length must be a positive integer");
     this.length = length;
     if (tokens == null) {
@@ -23,8 +27,8 @@ public class RollingNGram {
     }
   }
 
-  public String push(String token) {
-    String poppedToken = null;
+  public T push(T token) {
+    T poppedToken = null;
     if (tokens.size() == length) {
       poppedToken = tokens.pop();
     }
@@ -32,7 +36,7 @@ public class RollingNGram {
     return poppedToken;
   }
 
-  public String pop(){
+  public T pop() {
     return tokens.pop();
   }
 
@@ -40,11 +44,12 @@ public class RollingNGram {
     return tokens.size() == length;
   }
 
-  public List<String> getTokens() {
-    return tokens;
+  public int size() {
+    return tokens.size();
   }
 
-  public int size(){
-    return tokens.size();
+  @Override
+  public Iterator<T> iterator() {
+    return tokens.iterator();
   }
 }

@@ -7,12 +7,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import kata.fourteen.accumulo.accumulo.EmptyTableException;
-import kata.fourteen.accumulo.accumulo.RollingNGram;
+import kata.fourteen.accumulo.accumulo.RollingQueue;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
 
 import org.apache.accumulo.core.client.TableNotFoundException;
 
-public class NGramTokenGenerator implements TokenGenerator{
+import com.google.common.collect.Lists;
+
+public class NGramTokenGenerator implements TokenGenerator {
   private final NGramReader reader;
   private final int ngramSize;
 
@@ -29,27 +31,27 @@ public class NGramTokenGenerator implements TokenGenerator{
     } catch (TableNotFoundException e) {
       throw new RuntimeException(e);
     }
-    if (initial.isEmpty()) {
+    if (initial == null) {
       throw new EmptyTableException("No entries exist in the NGram table.");
     }
-    final RollingNGram rollingNGram = new RollingNGram(ngramSize, initial);
+    final RollingQueue<String> rollingQueue = new RollingQueue<>(ngramSize, initial);
     return new Iterator<String>() {
       @Override
       public boolean hasNext() {
-        return rollingNGram.size() > 0;
+        return rollingQueue.size() > 0;
       }
 
       @Override
       public String next() {
-        if (!rollingNGram.isFilled()) {
-          return rollingNGram.pop();
+        if (!rollingQueue.isFilled()) {
+          return rollingQueue.pop();
         }
         try {
-          String nextToken = reader.getNext(rollingNGram.getTokens());
+          String nextToken = reader.getNext(Lists.newArrayList(rollingQueue));
           if (nextToken != null) {
-            return rollingNGram.push(nextToken);
+            return rollingQueue.push(nextToken);
           } else {
-            return rollingNGram.pop();
+            return rollingQueue.pop();
           }
         } catch (TableNotFoundException e) {
           throw new RuntimeException(e);
