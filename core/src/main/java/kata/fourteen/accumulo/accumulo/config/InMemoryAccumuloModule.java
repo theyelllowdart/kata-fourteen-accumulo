@@ -15,6 +15,7 @@ import com.google.inject.name.Names;
 public class InMemoryAccumuloModule implements Module {
   @Override
   public void configure(Binder binder) {
+    //default username and password in accumulo 1.5
     binder.bindConstant().annotatedWith(Names.named(SettingKeys.ACCUMULO_USERNAME)).to("root");
     binder.bindConstant().annotatedWith(Names.named(SettingKeys.ACCUMULO_PASSWORD)).to("");
 

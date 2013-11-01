@@ -36,6 +36,12 @@ public class NGramReader {
     this.ngramSize = ngramSize;
   }
 
+  /**
+   * Retrieve a random ngram.
+   * <p/>
+   * Note not all ngram are equally likely to be selected.
+   * @throws TableNotFoundException
+   */
   public List<String> getInitial() throws TableNotFoundException {
     // try random position
     Scanner scanner = connector.createScanner(ngramTable, new Authorizations());
@@ -54,26 +60,29 @@ public class NGramReader {
       if (infinityIterator.hasNext()) {
         return infinityIterator.next().getKey().getRow();
       } else {
-        return new ArrayList<>();
+        return null;
       }
     }
   }
 
+  /**
+   * Get random next using roulette selection
+   * @throws TableNotFoundException
+   */
   public String getNext(List<String> key) throws TableNotFoundException {
+    //fetch total for "next" entries for key
     Scanner scanner = connector.createScanner(ngramTable, new Authorizations());
     NGramEntry.NGramEntryTypo typo = new NGramEntry.NGramEntryTypo();
     scanner.setRange(typo.newRange(key));
     scanner.fetchColumnFamily(NGramTable.CFs.Meta.text);
     NGramEntry.NGramEntryTypo.Scanner typoScanner = typo.newScanner(scanner);
-
     Iterator<Map.Entry<Typo<List<String>, String, String, Long>.Key, Long>> iterator = typoScanner.iterator();
     if (iterator.hasNext()) {
       Long totalNextEntries = iterator.next().getValue();
 
+      //fetch a random next using roulette selection via WeightedSkippingIterator
       scanner.clearColumns();
-
       scanner.fetchColumnFamily(NGramTable.CFs.Next.text);
-
       IteratorSetting iteratorSettings = new IteratorSetting(1, WeightedSkippingIterator.class);
       Long target = new RandomDataImpl().nextLong(0, totalNextEntries);
       WeightedSkippingIterator.setTarget(iteratorSettings, target);

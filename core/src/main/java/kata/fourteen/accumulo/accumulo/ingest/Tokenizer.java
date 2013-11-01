@@ -6,7 +6,16 @@ import java.util.Iterator;
 import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.process.PTBTokenizer;
 
-public class TokenParser {
+/**
+ * Parses a text source into token
+ */
+public class Tokenizer {
+
+  /**
+   * Tokenizes english text using Stanford's NLP tokenizer
+   * @param reader english text
+   * @return a list of tokens
+   */
   public Iterator<String> parse(final Reader reader) {
     final PTBTokenizer<Word> tokenizer = PTBTokenizer.newPTBTokenizer(reader);
     return new Iterator<String>() {

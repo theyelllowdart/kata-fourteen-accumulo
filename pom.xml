@@ -15,7 +15,7 @@
     <module>web</module>
     <module>integration-tests</module>
     <module>accumulo-iterators</module>
-    <module>jars</module>
+    <module>uber-jars</module>
   </modules>
 
   <properties>
