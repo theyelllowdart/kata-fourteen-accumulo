@@ -22,12 +22,8 @@
     <param-value>MOCK</param-value>
   </context-param>
   <context-param>
-    <param-name>kata-fourteen.zookeeper.connection</param-name>
-    <param-value>localhost:2181</param-value>
-  </context-param>
-  <context-param>
     <param-name>kata-fourteen.ngram.size</param-name>
-    <param-value>3</param-value>
+    <param-value>2</param-value>
   </context-param>
   <context-param>
     <param-name>kata-fourteen.ngram.table.name</param-name>
