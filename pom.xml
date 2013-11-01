@@ -45,7 +45,7 @@
       <dependency>
         <groupId>com.googlecode.jmockit</groupId>
         <artifactId>jmockit</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
         <scope>test</scope>
       </dependency>
       <dependency>

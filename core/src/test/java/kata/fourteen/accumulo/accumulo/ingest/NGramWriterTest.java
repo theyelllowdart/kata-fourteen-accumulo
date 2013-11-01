@@ -11,14 +11,13 @@ import org.apache.accumulo.core.client.Connector;
 import org.junit.Test;
 
 public class NGramWriterTest {
-  @Tested
-  private NGramWriter writer;
-
   @Injectable
-  private String ngramTable = "ngram";
+  @Cascading
+  private Connector connector;
 
   @Test
-  public void close_closesAccumuloWriter(@Injectable @Cascading Connector connector, @Mocked final BatchWriter batchWriter) throws Exception {
+  public void close_closesAccumuloWriter(@Mocked final BatchWriter batchWriter) throws Exception {
+    NGramWriter writer = new NGramWriter("ngram", connector);
     writer.close();
     new Verifications() {
       {
