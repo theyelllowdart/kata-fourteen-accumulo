@@ -1,5 +1,12 @@
 package kata.fourteen.accumulo.accumulo;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.accumulo.core.client.BatchWriter;
 import org.apache.accumulo.core.client.BatchWriterConfig;
 import org.apache.accumulo.core.client.Connector;
@@ -16,13 +23,6 @@ import org.apache.accumulo.core.security.Authorizations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
 public class WeightedSkippingIteratorTest {
@@ -84,7 +84,7 @@ public class WeightedSkippingIteratorTest {
     Iterator<Map.Entry<Key, Value>> iterator = scanner.iterator();
     String actualColumnFamily = iterator.next().getKey().getColumnFamily().toString();
     assertThat(actualColumnFamily, is(expectedColumnFamily));
-    //only one row should be returned
+    // only one row should be returned
     assertThat(iterator.hasNext(), is(false));
   }
 }

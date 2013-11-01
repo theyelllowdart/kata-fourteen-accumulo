@@ -1,18 +1,16 @@
 package kata.fourteen.accumulo.accumulo.bootstrap;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import com.netflix.curator.framework.CuratorFramework;
+import com.netflix.curator.framework.recipes.locks.InterProcessMutex;
 import kata.fourteen.accumulo.accumulo.NGramEntry;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
-
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.IteratorSetting;
 import org.apache.accumulo.core.client.admin.TableOperations;
 import org.apache.accumulo.core.iterators.user.SummingCombiner;
 
-import com.netflix.curator.framework.CuratorFramework;
-import com.netflix.curator.framework.recipes.locks.InterProcessMutex;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Class for bootstrapping the NGRAM accumulo table

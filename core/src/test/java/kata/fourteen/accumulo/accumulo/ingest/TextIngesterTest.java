@@ -1,16 +1,14 @@
 package kata.fourteen.accumulo.accumulo.ingest;
 
-import java.io.Reader;
-
+import com.beust.jcommander.internal.Lists;
 import kata.fourteen.accumulo.accumulo.NGramEntry;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Injectable;
 import mockit.Tested;
-
 import org.junit.Test;
 
-import com.beust.jcommander.internal.Lists;
+import java.io.Reader;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

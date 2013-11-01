@@ -1,8 +1,7 @@
 package kata.fourteen.accumulo.resource;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
+import kata.fourteen.accumulo.accumulo.generation.TextGenerator;
+import org.apache.accumulo.core.client.TableNotFoundException;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -12,9 +11,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
-
-import kata.fourteen.accumulo.accumulo.generation.TextGenerator;
-import org.apache.accumulo.core.client.TableNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Iterator;
 
 @Path("/generator")
 public class TextGeneratorResource {
@@ -27,7 +26,7 @@ public class TextGeneratorResource {
 
   @GET
   @Produces(MediaType.TEXT_PLAIN)
-  public StreamingOutput generate(@QueryParam("maxLength") final long maxLength) throws TableNotFoundException {
+  public StreamingOutput generate(@QueryParam("maxLength") final long maxLength)  {
     final Iterator<String> generate = textGenerator.generate();
     return new StreamingOutput() {
       @Override

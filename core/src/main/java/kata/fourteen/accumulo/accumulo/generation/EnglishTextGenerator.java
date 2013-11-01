@@ -1,17 +1,18 @@
 package kata.fourteen.accumulo.accumulo.generation;
 
+import com.google.common.collect.Sets;
+import edu.stanford.nlp.trees.PennTreebankLanguagePack;
+import org.apache.commons.lang.WordUtils;
+
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.inject.Inject;
-
-import org.apache.commons.lang.WordUtils;
-
-import com.google.common.collect.Sets;
-import edu.stanford.nlp.trees.PennTreebankLanguagePack;
-
+/**
+ * Convert tokens into pretty text with proper spacing and capitalization
+ */
 public class EnglishTextGenerator implements TextGenerator {
 
   private final PennTreebankLanguagePack languagePack;

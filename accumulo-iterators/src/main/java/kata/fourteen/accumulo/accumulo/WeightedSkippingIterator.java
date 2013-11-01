@@ -1,9 +1,5 @@
 package kata.fourteen.accumulo.accumulo;
 
-import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.Map;
-
 import org.apache.accumulo.core.client.IteratorSetting;
 import org.apache.accumulo.core.data.Key;
 import org.apache.accumulo.core.data.Value;
@@ -12,6 +8,10 @@ import org.apache.accumulo.core.iterators.SkippingIterator;
 import org.apache.accumulo.core.iterators.SortedKeyValueIterator;
 import org.apache.accumulo.core.iterators.TypedValueCombiner;
 import org.apache.accumulo.start.classloader.vfs.AccumuloVFSClassLoader;
+
+import java.io.IOException;
+import java.util.AbstractMap;
+import java.util.Map;
 
 /**
  * Iterator for skipping entries with weights (assumes each entry has value long which represent its weight). The
@@ -64,7 +64,7 @@ public class WeightedSkippingIterator extends SkippingIterator {
 
   @Override
   public void next() throws IOException {
-    //ensure targetEntry is only returned once
+    // ensure targetEntry is only returned once
     targetEntry = null;
   }
 

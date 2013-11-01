@@ -1,9 +1,10 @@
 package kata.fourteen.accumulo.config;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
 import kata.fourteen.accumulo.resource.TextGeneratorResource;
 import kata.fourteen.accumulo.resource.TextIngestResource;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
 
 public class RestModule implements Module {
   @Override

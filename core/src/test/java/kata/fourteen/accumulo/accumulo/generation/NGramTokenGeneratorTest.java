@@ -1,15 +1,17 @@
 package kata.fourteen.accumulo.accumulo.generation;
 
-import com.google.common.collect.Lists;
-import mockit.Expectations;
-import mockit.Injectable;
-import mockit.Tested;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Iterator;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Tested;
+
+import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 public class NGramTokenGeneratorTest {
   @Tested

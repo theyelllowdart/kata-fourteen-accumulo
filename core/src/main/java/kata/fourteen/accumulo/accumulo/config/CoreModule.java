@@ -1,14 +1,15 @@
 package kata.fourteen.accumulo.accumulo.config;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.name.Names;
-import com.netflix.curator.framework.CuratorFramework;
 import kata.fourteen.accumulo.accumulo.config.providers.CuratorFrameworkProvider;
 import kata.fourteen.accumulo.accumulo.generation.EnglishTextGenerator;
 import kata.fourteen.accumulo.accumulo.generation.NGramTokenGenerator;
 import kata.fourteen.accumulo.accumulo.generation.TextGenerator;
 import kata.fourteen.accumulo.accumulo.generation.TokenGenerator;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.name.Names;
+import com.netflix.curator.framework.CuratorFramework;
 
 public class CoreModule implements Module {
   private final String zookeeperConnection;

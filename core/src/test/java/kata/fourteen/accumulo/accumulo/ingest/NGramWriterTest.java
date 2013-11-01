@@ -3,9 +3,7 @@ package kata.fourteen.accumulo.accumulo.ingest;
 import mockit.Cascading;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.Tested;
 import mockit.Verifications;
-
 import org.apache.accumulo.core.client.BatchWriter;
 import org.apache.accumulo.core.client.Connector;
 import org.junit.Test;
