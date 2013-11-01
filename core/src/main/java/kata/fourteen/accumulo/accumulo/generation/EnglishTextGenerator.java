@@ -1,14 +1,16 @@
 package kata.fourteen.accumulo.accumulo.generation;
 
-import com.google.common.collect.Sets;
-import edu.stanford.nlp.trees.PennTreebankLanguagePack;
-import org.apache.commons.lang.WordUtils;
-
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
+
+import javax.inject.Inject;
+
+import org.apache.commons.lang.WordUtils;
+
+import com.google.common.collect.Sets;
+import edu.stanford.nlp.trees.PennTreebankLanguagePack;
 
 /**
  * Convert tokens into pretty text with proper spacing and capitalization
@@ -71,8 +73,8 @@ public class EnglishTextGenerator implements TextGenerator {
       String returnText;
       String nextToken = tokenIterator.next();
 
-      // if text start, capitalize token
-      if (lastToken == null) {
+      // if paragraph start, capitalize token
+      if (lastToken == null || (languagePack.isSentenceFinalPunctuationTag(lastToken) && finalPunctuationCount == 0)) {
         returnText = WordUtils.capitalize(nextToken);
       }
       // if final punctuation, increment counter and probabilistically break paragraph
