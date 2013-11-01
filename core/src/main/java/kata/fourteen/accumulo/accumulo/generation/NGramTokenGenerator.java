@@ -1,18 +1,15 @@
 package kata.fourteen.accumulo.accumulo.generation;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import com.google.common.collect.Lists;
 import kata.fourteen.accumulo.accumulo.EmptyTableException;
 import kata.fourteen.accumulo.accumulo.RollingQueue;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
-
 import org.apache.accumulo.core.client.TableNotFoundException;
 
-import com.google.common.collect.Lists;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.Iterator;
+import java.util.List;
 
 public class NGramTokenGenerator implements TokenGenerator {
   private final NGramReader reader;

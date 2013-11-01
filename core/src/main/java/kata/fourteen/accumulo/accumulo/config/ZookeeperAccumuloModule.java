@@ -4,7 +4,6 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.name.Names;
 import kata.fourteen.accumulo.accumulo.config.providers.ConnectorProvider;
-import kata.fourteen.accumulo.accumulo.config.providers.MockInstanceProvider;
 import kata.fourteen.accumulo.accumulo.config.providers.ZookeeperInstanceProvider;
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.Instance;

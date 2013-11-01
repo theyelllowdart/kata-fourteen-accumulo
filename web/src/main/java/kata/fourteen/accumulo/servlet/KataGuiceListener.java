@@ -1,10 +1,10 @@
 package kata.fourteen.accumulo.servlet;
 
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-
+import com.google.common.base.Objects;
+import com.google.common.io.Closeables;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.netflix.curator.test.TestingServer;
 import kata.fourteen.accumulo.accumulo.bootstrap.NGramTableBootstrap;
 import kata.fourteen.accumulo.accumulo.config.AccumuloConnectionType;
 import kata.fourteen.accumulo.accumulo.config.CoreModule;
@@ -12,14 +12,11 @@ import kata.fourteen.accumulo.accumulo.config.InMemoryAccumuloModule;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
 import kata.fourteen.accumulo.accumulo.config.ZookeeperAccumuloModule;
 import kata.fourteen.accumulo.config.RestModule;
-
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
 
-import com.google.common.base.Objects;
-import com.google.common.io.Closeables;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.netflix.curator.test.TestingServer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import java.util.List;
 
 public class KataGuiceListener extends GuiceResteasyBootstrapServletContextListener {
   private TestingServer zkTestingServer;

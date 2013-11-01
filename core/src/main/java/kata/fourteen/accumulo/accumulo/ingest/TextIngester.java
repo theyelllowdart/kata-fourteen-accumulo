@@ -1,18 +1,16 @@
 package kata.fourteen.accumulo.accumulo.ingest;
 
-import java.io.Reader;
-import java.util.Iterator;
+import kata.fourteen.accumulo.accumulo.NGramEntry;
+import kata.fourteen.accumulo.accumulo.RollingQueue;
+import kata.fourteen.accumulo.accumulo.config.SettingKeys;
+import org.apache.accumulo.core.client.MutationsRejectedException;
+import org.apache.accumulo.core.client.TableNotFoundException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
-
-import kata.fourteen.accumulo.accumulo.NGramEntry;
-import kata.fourteen.accumulo.accumulo.RollingQueue;
-import kata.fourteen.accumulo.accumulo.config.SettingKeys;
-
-import org.apache.accumulo.core.client.MutationsRejectedException;
-import org.apache.accumulo.core.client.TableNotFoundException;
+import java.io.Reader;
+import java.util.Iterator;
 
 /**
  *

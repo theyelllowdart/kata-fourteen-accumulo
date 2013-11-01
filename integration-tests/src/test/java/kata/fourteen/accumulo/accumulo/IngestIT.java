@@ -1,14 +1,8 @@
 package kata.fourteen.accumulo.accumulo;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import kata.fourteen.accumulo.resource.TextIngestResource;
-import org.apache.accumulo.core.client.Connector;
-import org.apache.accumulo.core.client.Scanner;
-import org.apache.accumulo.core.security.Authorizations;
-import org.apache.accumulo.typo.Typo;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertThat;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -17,9 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import kata.fourteen.accumulo.resource.TextIngestResource;
+
+import org.apache.accumulo.core.client.Connector;
+import org.apache.accumulo.core.client.Scanner;
+import org.apache.accumulo.core.security.Authorizations;
+import org.apache.accumulo.typo.Typo;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 public class IngestIT extends KataFourteenIntegrationTest {
   @Inject
@@ -79,7 +81,7 @@ public class IngestIT extends KataFourteenIntegrationTest {
     NGramEntry.NGramEntryTypo.Scanner typoScanner = typo.newScanner(scanner);
     ArrayList<Map.Entry<Typo<List<String>, String, String, Long>.Key, Long>> entries = Lists.newArrayList(typoScanner);
 
-    //rough estimate from book word counts, there should be at least 500,000 entries
+    // rough estimate from book word counts, there should be at least 500,000 entries
     Assert.assertThat(entries.size(), greaterThan(500000));
   }
 }

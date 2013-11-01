@@ -1,13 +1,12 @@
 package kata.fourteen.accumulo.accumulo.config.providers;
 
+import kata.fourteen.accumulo.accumulo.config.SettingKeys;
+import org.apache.accumulo.core.client.Instance;
+import org.apache.accumulo.core.client.ZooKeeperInstance;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
-
-import kata.fourteen.accumulo.accumulo.config.SettingKeys;
-
-import org.apache.accumulo.core.client.Instance;
-import org.apache.accumulo.core.client.ZooKeeperInstance;
 
 public class ZookeeperInstanceProvider implements Provider<Instance> {
   private final String zkConnectionString;

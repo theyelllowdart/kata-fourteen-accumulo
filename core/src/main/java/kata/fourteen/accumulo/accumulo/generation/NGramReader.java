@@ -1,18 +1,9 @@
 package kata.fourteen.accumulo.accumulo.generation;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import kata.fourteen.accumulo.accumulo.NGramEntry;
 import kata.fourteen.accumulo.accumulo.NGramTable;
 import kata.fourteen.accumulo.accumulo.WeightedSkippingIterator;
 import kata.fourteen.accumulo.accumulo.config.SettingKeys;
-
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.IteratorSetting;
 import org.apache.accumulo.core.client.Scanner;
@@ -22,6 +13,12 @@ import org.apache.accumulo.core.security.Authorizations;
 import org.apache.accumulo.typo.Typo;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.math.random.RandomDataImpl;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class NGramReader {
   private final String ngramTable;
@@ -40,6 +37,7 @@ public class NGramReader {
    * Retrieve a random ngram.
    * <p/>
    * Note not all ngram are equally likely to be selected.
+   * 
    * @throws TableNotFoundException
    */
   public List<String> getInitial() throws TableNotFoundException {
@@ -67,10 +65,11 @@ public class NGramReader {
 
   /**
    * Get random next using roulette selection
+   * 
    * @throws TableNotFoundException
    */
   public String getNext(List<String> key) throws TableNotFoundException {
-    //fetch total for "next" entries for key
+    // fetch total for "next" entries for key
     Scanner scanner = connector.createScanner(ngramTable, new Authorizations());
     NGramEntry.NGramEntryTypo typo = new NGramEntry.NGramEntryTypo();
     scanner.setRange(typo.newRange(key));
@@ -80,7 +79,7 @@ public class NGramReader {
     if (iterator.hasNext()) {
       Long totalNextEntries = iterator.next().getValue();
 
-      //fetch a random next using roulette selection via WeightedSkippingIterator
+      // fetch a random next using roulette selection via WeightedSkippingIterator
       scanner.clearColumns();
       scanner.fetchColumnFamily(NGramTable.CFs.Next.text);
       IteratorSetting iteratorSettings = new IteratorSetting(1, WeightedSkippingIterator.class);

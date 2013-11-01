@@ -1,15 +1,15 @@
 package kata.fourteen.accumulo.accumulo;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.base.Preconditions;
-
 /**
  *
  */
-public class RollingQueue<T> implements Iterable<T>{
+public class RollingQueue<T> implements Iterable<T> {
   private final int length;
   private final LinkedList<T> tokens;
 
