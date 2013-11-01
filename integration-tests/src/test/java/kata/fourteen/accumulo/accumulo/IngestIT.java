@@ -31,7 +31,9 @@ public class IngestIT extends KataFourteenIntegrationTest {
   @Test
   public void sampleIngest() throws Exception {
     Reader input = new StringReader("I wish I may I wish I might");
-    ingest.ingest(input);
+    long entriesIngested = ingest.ingest(input);
+
+    assertThat(entriesIngested, is(6L));
 
     Scanner scanner = connector.createScanner(ngramTable, new Authorizations());
     NGramEntry.NGramEntryTypo typo = new NGramEntry.NGramEntryTypo();

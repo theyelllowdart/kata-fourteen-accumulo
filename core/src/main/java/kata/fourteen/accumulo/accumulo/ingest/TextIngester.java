@@ -37,8 +37,10 @@ public class TextIngester {
    *          english text
    * @throws MutationsRejectedException
    * @throws TableNotFoundException
+   * @return number of entries ingested
    */
-  public void ingest(final Reader reader) throws MutationsRejectedException, TableNotFoundException {
+  public long ingest(final Reader reader) throws MutationsRejectedException, TableNotFoundException {
+    long entriesWritten = 0;
     try (NGramWriter writer = writerProvider.get()) {
       Iterator<String> tokens = tokenizer.parse(reader);
       RollingQueue<String> rollingQueue = new RollingQueue<>(ngramSize);
@@ -51,10 +53,12 @@ public class TextIngester {
         }
         if (rollingQueue.isFilled()) {
           writer.insert(new NGramEntry(rollingQueue, nextToken));
+          entriesWritten++;
         }
         // push next token into rolling queue
         rollingQueue.push(nextToken);
       }
     }
+    return entriesWritten;
   }
 }
